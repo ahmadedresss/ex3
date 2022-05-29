@@ -17,11 +17,14 @@ public:
     Array&operator=(const Array& a);
     int size() const;
     int front();
+    int front()const;
     void popFront();
     void pushBack(const Q& add);
     int getMaxSize() const;
     int empty();
+    void popFront();
     class Iterator;
+    class ConstIterator;
     Iterator begin() const;
     Iterator end() const;
 
@@ -115,19 +118,104 @@ int Array<Q>::front()
     }
     return m_arr[this->getFront()];
 }
+template <class Q>
+int Array<Q>::front()const
+{
+    if (size() == 0)
+    {
+        throw empty();
+    }
+    return m_arr[this->getFront()];
+}
+
+template<class Q>
+void Queue<Q>::popFront() {
+    if(m_size == 0)
+        throw empty();
+    --m_size;
+    for (int i = 0; i < m_size; ++i) {
+        m_arr[i] = m_arr[i+1];
+    }
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////// popFront
 /////////----------ITERATOR---------//////////
 template <class Q>
 class Array<Q>::Iterator
 {
-    const Array<Q> * array;
+    Array<Q> * array;
     int index;
     Iterator(const Array<Q>* queue, int index);
     friend class Array;
 
 public:
-    const Q& operator*()const;
+    Q& operator*()const;
+    Iterator& operator++();
+    Iterator operator++(int);
+    bool operator==(const Iterator& it);
+    bool operator!=(const Iterator& it);
+    Iterator(const Iterator&) = default;
+    Iterator& operator=(const Iterator&) = default;
+
+};
+
+template<class Q>
+typename Array<Q>::Iterator Array<Q>::Iterator::operator++(int)
+{
+    Iterator result=*this;
+    ++*this;
+    return result;
+}
+
+template <class Q>
+typename Array<Q>::Iterator& Array<Q>::Iterator::operator++()
+{
+    ++index;
+    return *this;
+}
+
+template <class Q>
+bool Array<Q>::Iterator::operator==(const Iterator& i)
+{
+    //assert(i== this);
+    return index==i.index;
+}
+
+template <class Q>
+bool Array<Q>::Iterator::operator!=(const Iterator& i) {
+    return !(*this == i);
+}
+
+template <class Q>
+typename Array<Q>::Iterator Array<Q>::begin()
+{
+    return Iterator(this,0);
+}
+
+template <class Q>
+typename Array<Q>::Iterator Array<Q>::end()
+{
+    return Iterator(this,0);
+}
+
+
+
+
+
+
+
+
+
+
+template <class Q>
+class ConstIterator{
+    const Array<Q>* array;
+    int index;
+    ConstIterator(const Array<Q>*queue, int index);
+    friend class Array;
+
+    public:
+    cconst Q& operator*()const;
     Iterator& operator++();
     Iterator operator++(int);
     bool operator==(const Iterator& it)const;
@@ -135,7 +223,11 @@ public:
     Iterator(const Iterator&) = default;
     Iterator& operator=(const Iterator&) = default;
 
-};
+
+
+
+    };
+
 template<class Q>
 typename Array<Q>::Iterator Array<Q>::Iterator::operator++(int)
 {
@@ -175,8 +267,6 @@ typename Array<Q>::Iterator Array<Q>::end() const
 {
     return Iterator(this,0);
 }
-
-
 
 
 #endif //EX3_QUEUE_H
