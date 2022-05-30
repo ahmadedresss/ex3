@@ -151,22 +151,22 @@ void Queue<Q>::pushBack(const Q& add)
 template <class Q>
 int& Queue<Q>::front()
 {
-    /*if (size() == 0)
+    if (size() == 0)
     {
         throw EmptyQueue();
-    }*/
+    }
 
-    return m_arr[size()];
+    return m_arr[0];
 }
 
 template <class Q>
 int& Queue<Q>::front()const
 {
-   /* if (size() == 0)
+    if (size() == 0)
     {
         throw EmptyQueue();
-    }*/
-    return m_arr[size()];
+    }
+    return m_arr[0];
 }
 
 template<class Q>
