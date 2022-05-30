@@ -7,6 +7,7 @@
 #ifndef EX3_QUEUE_H
 #define EX3_QUEUE_H
 #define EXPAND_RATE 2
+#define INITIAL_SIZE 10
 template<class Q>
 
 
@@ -89,7 +90,7 @@ Queue<Q>& Queue<Q>::operator=(const Queue<Q> &a){
 }
 
 template<class Q>
-Queue<Q>::Queue() : m_arr(new Q[m_size]),m_size(0)
+Queue<Q>::Queue() : m_arr(new Q[INITIAL_SIZE]),m_size(0)
 {
 
 }
