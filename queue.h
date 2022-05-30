@@ -49,10 +49,10 @@ private:
 template<class Q>
 int Queue<Q>::size() const
 {
-    if (m_size==0)
+   /* if (m_size==0)
     {
         throw EmptyQueue();
-    }
+    }*/
     return m_size;
 }
 
@@ -79,7 +79,7 @@ Queue<Q>& Queue<Q>::operator=(const Queue<Q> &a){
         }
 
     }
-    catch (std::bad_alloc)
+    catch (...)
     {
         delete[] m_arr;
         throw;
@@ -122,7 +122,7 @@ void Queue<Q>::expand()
             newArr[i] = m_arr[i];
         }
     }
-    catch(std::bad_alloc)
+    catch(...)
     {
         delete[] newArr;
         throw ;
@@ -150,10 +150,10 @@ void Queue<Q>::pushBack(const Q& add)
 template <class Q>
 int& Queue<Q>::front()
 {
-    if (size() == 0)
+    /*if (size() == 0)
     {
         throw EmptyQueue();
-    }
+    }*/
 
     return m_arr[size()];
 }
@@ -161,19 +161,19 @@ int& Queue<Q>::front()
 template <class Q>
 int& Queue<Q>::front()const
 {
-    if (size() == 0)
+   /* if (size() == 0)
     {
         throw EmptyQueue();
-    }
+    }*/
     return m_arr[size()];
 }
 
 template<class Q>
 void Queue<Q>::popFront() {
-    if(m_size == 0)
+  /*  if(m_size == 0)
     {
         throw EmptyQueue();
-    }
+    }*/
     --m_size;
     for (int i = 0; i < m_size; ++i) {
         m_arr[i] = m_arr[i+1];
@@ -188,7 +188,7 @@ class Queue<Q>::Iterator
 {
     Queue<Q> * array;
     int index;
-    Iterator(const Queue<Q>* queue, int index);
+    Iterator( Queue<Q>* queue, int index);
     friend class Queue;
 public:
     Q& operator*()const;
@@ -206,8 +206,8 @@ public:
     };
 };
 
-template<class T>
-Queue<T>::Iterator::Iterator(const Queue<T>* queue, int index) :
+template<class Q>
+Queue<Q>::Iterator::Iterator(Queue<Q>* queue, int index) :
         array(queue), index(index){}
 
 template<class Q>
@@ -258,7 +258,7 @@ bool Queue<Q>::Iterator::operator!=(const Iterator& i) {
 template <class Q>
 typename Queue<Q>::Iterator Queue<Q>::begin()
 {
-    return iterator(this,0);
+    return Iterator(this,0);
 }
 
 template <class Q>
@@ -278,7 +278,7 @@ typename Queue<Q>::Iterator Queue<Q>::end()
 
 template <class Q>
 class Queue<Q>::ConstIterator{
-     Queue<Q>* array;
+        const Queue<Q>* array;
     int index;
     ConstIterator(const Queue<Q>* queue, int index);
     friend class Queue<Q>;
@@ -300,9 +300,10 @@ public:
 };
 
 
-template<class T>
-Queue<T>::ConstIterator::ConstIterator(const Queue<T>* queue, int index) :
-        array(queue), index(index){}
+template<class Q>
+Queue<Q>::ConstIterator::ConstIterator(const Queue<Q>* queue, int index) :
+        array(queue), index(index)
+{}
 
 template<class Q>
 const Q& Queue<Q>::ConstIterator::operator*() const
