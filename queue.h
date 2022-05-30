@@ -22,11 +22,13 @@ public:
     void pushBack(const Q& add);
     int getMaxSize() const;
     int empty();
-    void popFront();
     class Iterator;
     class ConstIterator;
-    Iterator begin() const;
-    Iterator end() const;
+
+    Iterator begin();
+    Iterator end();
+    ConstIterator begin() const;
+    ConstIterator end() const;
 
 
 
@@ -129,7 +131,7 @@ int Array<Q>::front()const
 }
 
 template<class Q>
-void Queue<Q>::popFront() {
+void Array<Q>::popFront() {
     if(m_size == 0)
         throw empty();
     --m_size;
@@ -140,6 +142,7 @@ void Queue<Q>::popFront() {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////// popFront
 /////////----------ITERATOR---------//////////
+/////
 template <class Q>
 class Array<Q>::Iterator
 {
@@ -177,7 +180,7 @@ typename Array<Q>::Iterator& Array<Q>::Iterator::operator++()
 template <class Q>
 bool Array<Q>::Iterator::operator==(const Iterator& i)
 {
-    //assert(i== this);
+    assert(array== i.array);/////////////////////////////////////////////////////////
     return index==i.index;
 }
 
@@ -208,62 +211,63 @@ typename Array<Q>::Iterator Array<Q>::end()
 
 
 template <class Q>
-class ConstIterator{
+class Array<Q>::ConstIterator{
     const Array<Q>* array;
     int index;
     ConstIterator(const Array<Q>*queue, int index);
-    friend class Array;
+    friend class Array<Q>;
 
-    public:
-    cconst Q& operator*()const;
-    Iterator& operator++();
-    Iterator operator++(int);
-    bool operator==(const Iterator& it)const;
-    bool operator!=(const Iterator& it)const;
-    Iterator(const Iterator&) = default;
-    Iterator& operator=(const Iterator&) = default;
-
-
+public:
+    const Q& operator*()const;
+    ConstIterator& operator++();
+    ConstIterator operator++(int);
+    bool operator==(const ConstIterator& it)const;
+    bool operator!=(const ConstIterator& it)const;
+    ConstIterator(const ConstIterator&) = default;
+    ConstIterator& operator=(const ConstIterator&) = default;
 
 
-    };
+
+
+};
 
 template<class Q>
-typename Array<Q>::Iterator Array<Q>::Iterator::operator++(int)
+typename Array<Q>::ConstIterator Array<Q>::ConstIterator::operator++(int)
 {
-    Iterator result=*this;
-    ++*this;
+    ConstIterator result=*this;
+    ++ *this;
     return result;
 }
 
 
 template <class Q>
-typename Array<Q>::Iterator& Array<Q>::Iterator::operator++()
+typename Array<Q>::ConstIterator& Array<Q>::ConstIterator::operator++()
 {
     ++index;
     return *this;
 }
 
 template <class Q>
-bool Array<Q>::Iterator::operator==(const Iterator& i)const
+
+bool Array<Q>::ConstIterator::operator==(const ConstIterator& it) const
 {
-    //assert(i== this);
-    return index==i.index;
+    assert(array==it.array);/////////////////////////////////////////////////////////////////////////
+    return index==it.index;
 }
 
 template <class Q>
-bool Array<Q>::Iterator::operator!=(const Iterator& i) const{
-    return !(*this == i);
+bool Array<Q>::ConstIterator::operator!=(const ConstIterator& it) const{
+    return !(*this == it);
 }
 
 template <class Q>
-typename Array<Q>::Iterator Array<Q>::begin() const
+typename Array<Q>::ConstIterator Array<Q>::begin() const
 {
     return Iterator(this,0);
 }
 
 template <class Q>
-typename Array<Q>::Iterator Array<Q>::end() const
+typename Array<Q>::ConstIterator Array<Q>::end() const
 {
     return Iterator(this,0);
 }
