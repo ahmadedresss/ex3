@@ -20,7 +20,7 @@ private:
 public:
     class InvalidArgument {};
     HealthPoints(const HealthPoints& healthPoints)=default;
-     ~HealthPoints()=default;
+    ~HealthPoints()=default;
 
     HealthPoints(int maxHP=DE_HP);
     HealthPoints& operator+=(const int add);
