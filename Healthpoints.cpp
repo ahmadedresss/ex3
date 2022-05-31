@@ -23,10 +23,14 @@ HealthPoints &HealthPoints::operator=(int num) {
 }
 HealthPoints& HealthPoints::operator+=(const int add)
 {
-    
     if(m_HP+add>m_max_HP)
     {
         m_HP=m_max_HP;
+        return *this;
+    }
+    if(m_HP+add<0)
+    {
+        m_HP=0;
         return *this;
     }
     m_HP+=add;
@@ -35,20 +39,20 @@ HealthPoints& HealthPoints::operator+=(const int add)
 
 HealthPoints& HealthPoints::operator-=(const int minus)
 {
-  
-
     if(m_HP-minus<0)
     {
-        m_HP = 0;
+        m_HP=0;
         return *this;
     }
-    else
+    
+    if(m_HP-minus>m_max_HP)
     {
-        m_HP -= minus;
+        m_HP=m_max_HP;
         return *this;
-
     }
-
+    m_HP -= minus;
+    return *this;
+    
 }
 
 HealthPoints operator-(const int minus,const HealthPoints& it)
