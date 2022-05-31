@@ -25,6 +25,7 @@ public:
     HealthPoints(int maxHP=DE_HP);
     HealthPoints& operator+=(const int add);
     HealthPoints& operator-=(const int minus);
+    
 
 };
 HealthPoints operator+(const int add,const HealthPoints& it);
@@ -40,6 +41,8 @@ bool operator>=(const HealthPoints& r,const HealthPoints& it);
 bool operator>(const HealthPoints& r,const HealthPoints& it);
 
 bool operator<=(const HealthPoints& r,const HealthPoints& it);
+
+bool operator!=(const HealthPoints& r,const HealthPoints& it);
 
 
 
