@@ -89,6 +89,11 @@ bool operator==(const HealthPoints& r,const HealthPoints& it)
     }
 }
 
+bool operator!=(const HealthPoints& r,const HealthPoints& it)
+{
+    return !(r==it);
+}
+
 bool operator>=(const HealthPoints& r,const HealthPoints& it)
 {
     return !(r<it);
