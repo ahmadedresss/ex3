@@ -11,9 +11,7 @@ private:
 
     int m_max_HP;
     int m_HP;
-    friend std::ostream& operator<<(std::ostream& os,const HealthPoints& r);
-    friend bool operator==(const HealthPoints& r,const HealthPoints& it);
-    friend bool operator<(const HealthPoints& r,const HealthPoints& it);
+    
 
 
 
@@ -22,13 +20,23 @@ public:
     HealthPoints(const HealthPoints& healthPoints)=default;
     ~HealthPoints()=default;
 
+    friend std::ostream& operator<<(std::ostream& os,const HealthPoints& r);
+    friend bool operator==(const HealthPoints& r,const HealthPoints& it);
+    friend bool operator<(const HealthPoints& r,const HealthPoints& it);
+    
     HealthPoints(int maxHP=DE_HP);
     HealthPoints& operator+=(const int add);
     HealthPoints& operator-=(const int minus);
+    
+    
     HealthPoints& operator= (const HealthPoints& other)= default;
     HealthPoints& operator= (int num);
 
 };
+
+
+
+
 HealthPoints operator+(const int add,const HealthPoints& it);
 HealthPoints operator+(const HealthPoints& it,const int add);
 HealthPoints operator-(const int minus ,const HealthPoints& it);
