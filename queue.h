@@ -52,7 +52,7 @@ template<class Q>
 int Queue<Q>::size() const
 {
     if (m_size<0)
-    {////////////////////////////////////////////////////////////////////////////////////
+    {
         throw EmptyQueue();
     }
     return m_size;
@@ -76,7 +76,7 @@ Queue<Q>& Queue<Q>::operator=(const Queue<Q> &a){
         m_size  =a.m_size;
         for(int i=0; i < m_size;++i)
         {
-           tmp[i]=a.m_arr[i];
+            tmp[i]=a.m_arr[i];
         }
 
     }
@@ -122,16 +122,20 @@ Queue<Q>::~Queue()
 template<class Q>
 Queue<Q>::Queue(const Queue<Q>& copy):m_size(copy.m_size),m_max_size(copy.m_max_size)
 {
-    Q* tmp=new Q[copy.m_max_size];
-
-    for(int i=0;i<m_size;++i)
-    {
-        tmp[i]=copy.m_arr[i];//////////////////////////////
+    m_arr=new Q[copy.m_max_size];
+try {
+    for (int i = 0; i < m_size; ++i) {
+        m_arr[i] = copy.m_arr[i];
     }
+}
+catch(...)
+{
     delete [] m_arr;
-    m_arr=tmp;
+    throw ;
+}
 
 }
+
 
 template<class Q>
 void Queue<Q>::expand()
@@ -300,7 +304,7 @@ typename Queue<Q>::Iterator Queue<Q>::end()
 
 template <class Q>
 class Queue<Q>::ConstIterator{
-        const Queue<Q>* array;
+    const Queue<Q>* array;
     int index;
     ConstIterator(const Queue<Q>* queue, int index);
     friend class Queue<Q>;
@@ -404,7 +408,7 @@ Queue<Q> filter (Queue<Q> arr,Function c)
         {
             try {
                 temp.pushBack(*iterator);
-                }
+            }
             catch (...)
             {
                 throw;
