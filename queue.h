@@ -6,8 +6,8 @@
 #include <cassert>
 #ifndef EX3_QUEUE_H
 #define EX3_QUEUE_H
-#define EXPAND_RATE 2
-#define INITIAL_SIZE 10
+//#define EXPAND_RATE 2
+//#define INITIAL_SIZE 10
 template<class Q>
 
 
@@ -20,8 +20,8 @@ public:
     Queue();
     Queue& operator=(const Queue& a);
     int size() const;
-    int& front();
-    int& front()const;
+    Q& front();
+    Q& front()const;
     void popFront();
     void pushBack(const Q& add);
     int getMaxSize() const;
@@ -35,7 +35,8 @@ public:
 
     ConstIterator begin() const;
     ConstIterator end() const;
-
+    static const int EXPAND_RATE=2;
+    static const int INITIAL_SIZE=10;
 
 
 
@@ -50,10 +51,10 @@ private:
 template<class Q>
 int Queue<Q>::size() const
 {
-   /* if (m_size==0)
-    {
+    if (m_size<0)
+    {////////////////////////////////////////////////////////////////////////////////////
         throw EmptyQueue();
-    }*/
+    }
     return m_size;
 }
 
@@ -149,9 +150,9 @@ void Queue<Q>::pushBack(const Q& add)
 }
 
 template <class Q>
-int& Queue<Q>::front()
+Q& Queue<Q>::front()
 {
-    if (size() == 0)
+    if (m_size <= 0)
     {
         throw EmptyQueue();
     }
@@ -160,9 +161,9 @@ int& Queue<Q>::front()
 }
 
 template <class Q>
-int& Queue<Q>::front()const
+Q& Queue<Q>::front() const
 {
-    if (size() == 0)
+    if (m_size < 0)
     {
         throw EmptyQueue();
     }
@@ -171,10 +172,10 @@ int& Queue<Q>::front()const
 
 template<class Q>
 void Queue<Q>::popFront() {
-  /*  if(m_size == 0)
+    if(m_size < 0)
     {
         throw EmptyQueue();
-    }*/
+    }
     --m_size;
     for (int i = 0; i < m_size; ++i) {
         m_arr[i] = m_arr[i+1];
@@ -192,7 +193,7 @@ class Queue<Q>::Iterator
     Iterator( Queue<Q>* queue, int index);
     friend class Queue;
 public:
-    Q& operator*()const;
+    Q& operator*() const;
     Iterator& operator++();
     Iterator operator++(int);
     bool operator==(const Iterator& it);
