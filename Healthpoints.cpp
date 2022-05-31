@@ -12,13 +12,18 @@ HealthPoints::HealthPoints(int maxHP):m_max_HP(maxHP),m_HP(maxHP)
         throw InvalidArgument();
     }
 }
-
+HealthPoints &HealthPoints::operator=(int num) {
+    if(num < 0)
+    {
+        throw InvalidArgument();
+    }
+    m_max_HP = num;
+    m_HP = num;
+    return *this;
+}
 HealthPoints& HealthPoints::operator+=(const int add)
 {
-    if(add<0)
-    {
-        throw HealthPoints::InvalidArgument();
-    }
+    
     if(m_HP+add>m_max_HP)
     {
         m_HP=m_max_HP;
@@ -30,10 +35,7 @@ HealthPoints& HealthPoints::operator+=(const int add)
 
 HealthPoints& HealthPoints::operator-=(const int minus)
 {
-    if(minus<0)
-    {
-        throw HealthPoints::InvalidArgument();
-    }
+  
 
     if(m_HP-minus<0)
     {
@@ -79,7 +81,7 @@ HealthPoints operator+(const HealthPoints& it,const int add)
 
 bool operator==(const HealthPoints& r,const HealthPoints& it)
 {
-    if(r.m_HP==it.m_HP )
+    if( r.m_HP==it.m_HP )
     {
         return true;
     }
