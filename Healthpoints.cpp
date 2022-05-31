@@ -24,7 +24,7 @@ HealthPoints& HealthPoints::operator+=(const int add)
         m_HP=m_max_HP;
         return *this;
     }
-        m_HP+=add;
+    m_HP+=add;
     return *this;
 }
 
