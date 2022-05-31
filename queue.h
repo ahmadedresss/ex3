@@ -71,13 +71,12 @@ Queue<Q>& Queue<Q>::operator=(const Queue<Q> &a){
         return *this;
     }
     delete[] m_arr;
-    m_arr=new Q[a.size];
-    m_size  =a.size;
-
+    m_arr=new Q[a.m_size];
+    m_size  =a.m_size;
     try {
         for(int i=0; i < m_size;++i)
         {
-            m_arr[i]=a.arr[i];
+            m_arr[i]=a.m_arr[i];
         }
 
     }
@@ -92,6 +91,11 @@ Queue<Q>& Queue<Q>::operator=(const Queue<Q> &a){
 
 template<class Q>
 Queue<Q>::Queue() : m_arr(new Q[INITIAL_SIZE]),m_size(0)
+{
+
+}
+template<class Q>
+Queue<Q>::Queue(int size) : m_arr(new Q[INITIAL_SIZE]),m_size(size)
 {
 
 }
@@ -190,7 +194,7 @@ class Queue<Q>::Iterator
 {
     Queue<Q> * array;
     int index;
-    Iterator( Queue<Q>* queue, int index);
+    Iterator(Queue<Q>* queue, int index);
     friend class Queue;
 public:
     Q& operator*() const;
