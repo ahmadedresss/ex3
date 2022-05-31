@@ -70,33 +70,46 @@ Queue<Q>& Queue<Q>::operator=(const Queue<Q> &a){
     {
         return *this;
     }
-    delete[] m_arr;
-    m_arr=new Q[a.m_size];
-    m_size  =a.m_size;
+    Q* tmp=new Q[a.m_size];
+
     try {
+        m_size  =a.m_size;
         for(int i=0; i < m_size;++i)
         {
-            m_arr[i]=a.m_arr[i];
+           tmp[i]=a.m_arr[i];
         }
 
     }
     catch (...)
     {
-        delete[] m_arr;
+        delete[] tmp;
         throw;
     }
-
+    delete[] m_arr;
+    m_arr=tmp;
     return *this;
 }
 
 template<class Q>
-Queue<Q>::Queue() : m_arr(new Q[INITIAL_SIZE]),m_size(0)
+Queue<Q>::Queue() : m_arr(new Q[INITIAL_SIZE]),m_size(0),m_max_size(INITIAL_SIZE)
 {
 
 }
 template<class Q>
-Queue<Q>::Queue(int size) : m_arr(new Q[INITIAL_SIZE]),m_size(size)
+Queue<Q>::Queue(int size) :m_size(0)
 {
+    if(size<=0)
+    {
+        m_arr=new Q[INITIAL_SIZE];
+        m_max_size=INITIAL_SIZE;
+
+    }
+    else
+    {
+        m_arr=new Q[size];
+        m_max_size=size;
+    }
+
 
 }
 
@@ -107,12 +120,17 @@ Queue<Q>::~Queue()
 }
 
 template<class Q>
-Queue<Q>::Queue(const Queue<Q>& copy):m_arr(new Q[copy.m_max_size]),m_size(copy.m_size),m_max_size(copy.m_max_size)
+Queue<Q>::Queue(const Queue<Q>& copy):m_size(copy.m_size),m_max_size(copy.m_max_size)
 {
+    Q* tmp=new Q[copy.m_max_size];
+
     for(int i=0;i<m_size;++i)
     {
-        m_arr[i]=copy.m_arr[i];//////////////////////////////
+        tmp[i]=copy.m_arr[i];//////////////////////////////
     }
+    delete [] m_arr;
+    m_arr=tmp;
+
 }
 
 template<class Q>
@@ -176,10 +194,11 @@ Q& Queue<Q>::front() const
 
 template<class Q>
 void Queue<Q>::popFront() {
-    if(m_size < 0)
+    if(m_size <= 0)
     {
         throw EmptyQueue();
     }
+
     --m_size;
     for (int i = 0; i < m_size; ++i) {
         m_arr[i] = m_arr[i+1];
@@ -229,10 +248,7 @@ Q& Queue<Q>::Iterator::operator*() const
 template<class Q>
 typename Queue<Q>::Iterator Queue<Q>::Iterator::operator++(int)
 {
-    if (index >= array->size())
-    {
-        throw InvalidOperation();
-    }
+
     Iterator result=*this;
     ++*this;
     return result;
@@ -243,7 +259,7 @@ typename Queue<Q>::Iterator& Queue<Q>::Iterator::operator++()
 {
     if (index >= array->size())
     {
-        throw InvalidOperation();
+        throw Queue<Q>::Iterator::InvalidOperation();
     }
     ++index;
     return *this;
@@ -316,7 +332,7 @@ const Q& Queue<Q>::ConstIterator::operator*() const
 {
     if (index >= array->m_size)
     {
-        throw InvalidOperation();
+        throw Queue<Q>::ConstIterator::InvalidOperation();
     }
     return array->m_arr[index];
 }
@@ -324,10 +340,7 @@ const Q& Queue<Q>::ConstIterator::operator*() const
 template<class Q>
 typename Queue<Q>::ConstIterator Queue<Q>::ConstIterator::operator++(int)
 {
-    if (index >= array->size())
-    {
-        throw Queue<Q>::ConstIterator::InvalidOperation();
-    }
+
     ConstIterator result=*this;
     ++ *this;
     return result;
