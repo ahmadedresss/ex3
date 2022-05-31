@@ -420,3 +420,4 @@ Queue<Q> filter (Queue<Q> arr,Function c)
 
 
 #endif //EX3_QUEUE_H
+ 
